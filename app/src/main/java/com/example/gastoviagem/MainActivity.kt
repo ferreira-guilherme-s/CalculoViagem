@@ -19,18 +19,29 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         binding.botaoCalcular.setOnClickListener(this)
     }
 
+    private fun isValid(): Boolean {
+        return (binding.distancia.text.toString() != "" &&
+                binding.preco.text.toString() != "" &&
+                binding.autonomia.text.toString() != "" &&
+                binding.distancia.text.toString().toFloat() != 0f &&
+                binding.preco.text.toString().toFloat() != 0f &&
+                binding.autonomia.text.toString().toFloat() != 0f)
+    }
+
     private fun calculate() {
-        val distance = binding.distancia.text.toString().toFloat()
-        val price = binding.preco.text.toString().toFloat()
-        val autonomy = binding.autonomia.text.toString().toFloat()
+        if (isValid()) {
+            val distance = binding.distancia.text.toString().toFloat()
+            val price = binding.preco.text.toString().toFloat()
+            val autonomy = binding.autonomia.text.toString().toFloat()
 
-        val totalValue = (distance * price) / autonomy
-        val totalValueStr = "R$ ${"%.2f".format(totalValue)}"
+            val totalValue = (distance * price) / autonomy
+            val totalValueStr = "R$ ${"%.2f".format(totalValue)}"
 
-        binding.valor.text = totalValueStr
-
-        //Toast notification
-        //Toast.makeText(this, totalValueStr, Toast.LENGTH_SHORT).show()
+            binding.valor.text = totalValueStr
+        }else{
+            //Toast notification
+            Toast.makeText(this, R.string.required_field, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onClick(view: View) {
